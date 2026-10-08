@@ -14,9 +14,8 @@ https://mcp-starter-ts..workers.dev/mcp
 ```
 
 ## 授权与订阅
-本模板为**订阅授权**：$39/月，含免费额度；超额按量付费。
-- 订阅入口（立即开通）: https://checkout.dodopayments.com/session/cks_0NpHVS5oMIWNu1283MD4W
-- 产品 ID: pdt_0NpHVP3UYZr0ZUeuf3uQe
+本模板为**订阅授权**：$39/月起，含免费额度；超额按量付费。
+- 订阅入口: https://pixharvest.com/pricing
 - 生态市场: npm (`mcp-server-starter-ts`) · GitHub · MCP 生态
 
 ## 配套
