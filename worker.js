@@ -1,0 +1,25 @@
+// MCP Server Starter (TypeScript) — JSON-RPC over HTTP, zero-dependency
+// 用法: 部署到 Cloudflare Workers，作为 MCP 客户端(Claude/Cursor)的 server 端点
+export default {
+  async fetch(request) {
+    const body = await request.json().catch(() => ({}));
+    if (body.method === "initialize") {
+      return json({ protocolVersion: "2025-03-26", capabilities: { tools: {} },
+        serverInfo: { name: "mcp-starter-ts", version: "1.0.0" } });
+    }
+    if (body.method === "tools/list") {
+      return json({ tools: [
+        { name: "echo", description: "Echo back the input text", inputSchema: { type: "object", properties: { text: { type: "string" } } } },
+        { name: "now", description: "Get current UTC time", inputSchema: { type: "object", properties: {} } }
+      ]});
+    }
+    if (body.method === "tools/call") {
+      const args = body.params?.arguments || {};
+      if (body.params?.name === "echo") return json({ content: [{ type: "text", text: args.text || "" }] });
+      if (body.params?.name === "now") return json({ content: [{ type: "text", text: new Date().toISOString() }] });
+      return json({ error: { code: -32601, message: "Tool not found" } });
+    }
+    return json({ error: { code: -32601, message: "Method not found" } });
+  }
+};
+function json(o){ return new Response(JSON.stringify(o), { headers: { "Content-Type": "application/json" }, status: 200 }); }
